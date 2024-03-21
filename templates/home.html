@@ -1,0 +1,35 @@
+{{ define "home" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Accueil - Musiques Spotify</title>
+    <link href="/static/accueil.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Bienvenue sur notre page d'accueil</h1>
+    </header>
+    <form class="search-form" action="/search" method="post">
+            <input type="text" id="search" name="search" placeholder="Rechercher un album...">
+            <button type="submit">Rechercher</button>
+        </form>
+    <div class="album-grid">
+            {{ range . }}
+                <div class="album">
+                    <div class="album-info">
+                        <div class="album-title">{{ .Name }}</div>
+                        <div class="album-release">Sortie: {{ .ReleaseDate }}</div>
+                        <div class="album-tracks">Nombre de musiques: {{ .TotalTracks }}</div>
+                    </div>
+                    {{ range $index, $image := .Images }}
+                        {{ if eq $index 0 }}
+                            <img src="{{ $image.URL }}" alt="Image de l'album">
+                        {{ end }}
+                    {{ end }}
+                </div>
+            {{ end }}
+        </div>
+</body>
+</html>
+{{ end }}

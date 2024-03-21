@@ -1,0 +1,31 @@
+{
+    "artists": {
+        "items": [
+            {
+                "followers": {
+                    "total": 340
+                },
+                "genres": [],
+                "id": "5bA7wcQmdC4gqMlR9q413Y",
+                "images": [
+                    {
+                        "height": 640,
+                        "url": "https://i.scdn.co/image/ab6761610000e5eb98da0155d8b6dcb7a0314a54",
+                        "width": 640
+                    },
+                    {
+                        "height": 320,
+                        "url": "https://i.scdn.co/image/ab6761610000517498da0155d8b6dcb7a0314a54",
+                        "width": 320
+                    },
+                    {
+                        "height": 160,
+                        "url": "https://i.scdn.co/image/ab6761610000f17898da0155d8b6dcb7a0314a54",
+                        "width": 160
+                    }
+                ],
+                "name": "JULIET"
+            }
+        ]
+    }
+}
