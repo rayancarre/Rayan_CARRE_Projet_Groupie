@@ -1,13 +1,13 @@
-{{ define "home" }}
+{{ define "release" }}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Accueil - Musiques Spotify</title>
+    <title>Sortie - Musiques Spotify</title>
     <link href="/static/jul.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome pour l'icône de recherche -->
     <style>
-        
+        /* Styles pour la barre de recherche */
         .search-form {
             display: flex;
             align-items: center;
@@ -47,7 +47,7 @@
             margin-bottom: 5px;
         }
 
-       
+        /* Styles pour la barre de navigation */
         .navbar {
             overflow-x: auto;
             white-space: nowrap;
@@ -71,7 +71,7 @@
             background-color: #1db954;
         }
 
-       
+        /* Styles pour la pagination */
         .pagination {
             margin-top: 20px;
             text-align: center;
@@ -99,7 +99,7 @@
     <header>
         <h1>Wishify</h1>
     </header>
-  
+    <!-- Barre de navigation -->
     <div class="navbar">
         <a href="/home" class="nav-link active">Accueil</a>
         <a href="/pop" class="nav-link">Pop</a>
@@ -109,36 +109,38 @@
     <a href="/favorites" class="nav-link">Mes favoris</a>
     </div>
 
-    
+    <!-- Barre de recherche -->
     <form class="search-form" action="/search" method="post">
         <input type="text" id="search" name="search" class="search-input" placeholder="Rechercher un album...">
         <button type="submit" class="search-button">
-            <i class="fas fa-search"></i> 
+            <i class="fas fa-search"></i> <!-- Icône de recherche -->
         </button>
     </form>
     
-    
-    <div class="album-grid">
-        {{range .Items}}
-            <div class="album-card">
-                {{if .Images}}
-                    {{ $mediumImage := index .Images 0 }} 
-                    <img src="{{ $mediumImage.Url }}" alt="">
-                {{end}}
-                <h3>{{.Name}}</h3>
-                <!--<h1>{{.Id}}</h1>-->
-                <form action="/add-favorite" method="POST">
-                    <input type="hidden" name="id_artist" value="{{.Id}}">
-                    <button type="submit">
-                </form>
-                <p>Date de sortie: {{.Release_date}}</p>
-                <p>Nombre de pistes: {{.Total_tracks}}</p>
-                <p>Ajouter au favoris</p>
-            </div>
-        {{end}}
-    </div>
+    <!-- Grille d'albums -->
+<div class="album-grid">
+    {{range .Albums.Items}}
+        <div class="album-card">
+            <!-- Affichage de l'image de l'album si elle existe -->
+            {{if .Images}}
+                {{ $mediumImage := index .Images 0 }} <!-- Sélection de la première image (supposée être de taille moyenne) -->
+                <img src="{{ $mediumImage.URL }}" alt="{{.Name}}">
+            {{end}}
+            <!-- Nom de l'album -->
+            <h3>{{.Name}}</h3>
+            <!-- Formulaire pour ajouter l'album aux favoris -->
+            <form action="/add-favorite" method="POST">
+                <input type="hidden" name="album_id" value="{{.ID}}">
+                <button type="submit">Ajouter aux favoris</button>
+            </form>
+            <!-- Informations supplémentaires sur l'album -->
+            <p>Date de sortie: {{.ReleaseDate}}</p>
+            <p>Nombre de pistes: {{.TotalTracks}}</p>
+        </div>
+    {{end}}
+</div>
 
- 
+   <!-- Boutons de pagination et affichage du numéro de page -->
 <div class="pagination">
     <button id="prevPage">Page précédente</button>
     <span id="pageNumber"></span>

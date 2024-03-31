@@ -5,19 +5,116 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Results</title>
+    <link rel="stylesheet" href="/static/playlist.css">
+</head>
+<style>
+.search-form {
+    display: flex;
+    align-items: center;
+    width: 400px;
+    margin: 0 auto 20px auto;
+    background-color: #f4f4f4;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-input {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    color: #333;
+    outline: none;
+}
+
+.search-button {
+    background-color: #1db954;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}     
+
+h1 {
+    color: #1db954;
+}
+
+p {
+    color: #aaa;
+    margin-bottom: 5px;
+}
+
+/* Styles pour la barre de navigation */
+.navbar {
+    overflow-x: auto;
+    white-space: nowrap;
+    background-color: #333;
+    padding: 10px 0;
+}
+
+.nav-link {
+    display: inline-block;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: #555;
+}
+
+.active {
+    background-color: #1db954;
+}
+</style>
 </head>
 <body>
-    <h1>Search Results</h1>
-    <ul>
+<header>
+<h1>Wishify</h1>
+</header>
+
+<div class="navbar">
+<a href="/home" class="nav-link active">Accueil</a>
+<a href="/pop" class="nav-link">Pop</a>
+<a href="/rapfr" class="nav-link">Rap FR</a>
+<a href="/phonk" class="nav-link">Phonk</a>
+<a href="/release" class="nav-link">Nouvelle sortie</a>
+<a href="/favorites" class="nav-link">Mes favoris</a>
+</div>
+
+
+<form class="search-form" action="/search" method="post">
+<input type="text" id="search" name="search" class="search-input" placeholder="Rechercher un album...">
+<button type="submit" class="search-button">
+    <i class="fas fa-search"></i> 
+</button>
+</form>
+<body>
+    <h1>Artistes</h1>
+   <div class="artist-list">
         {{range .Artists.Items}}
-        <li>
-            <div>
-                <img src="{{index .Images 0 .URL}}" alt="{{.Name}}">
-                <p>{{.Name}}</p>
-            </div>
-        </li>
+        <div class="artist">
+            <a target="_blank" href="{{.External_urls.Spotify}}">
+                <h2>{{.Name}}</h2>
+                <p>Total Followers: {{.Followers.Total}}</p>
+                <div class="images">
+                    {{if .Image}}
+                        {{ $mediumImage := index .Image 0 }}  
+                        <img class="medium-image" src="{{ $mediumImage.URL }}" alt="Artist Image">
+                    {{end}}
+                </div>
+            </a>
+        </div>
         {{end}}
-    </ul>
+    </div>
+    <div class="pagination">
+        <a href="#" class="prev">&laquo; Previous</a>
+        <a href="#" class="next">Next &raquo;</a>
+    </div>
 </body>
 </html>
 {{end}}

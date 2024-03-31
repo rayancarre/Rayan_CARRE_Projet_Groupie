@@ -1,0 +1,188 @@
+{{define "rapfr"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rap FR: {{.Name}}</title>
+    <link rel="stylesheet" href="/static/playlist.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        
+        .search-form {
+            display: flex;
+            align-items: center;
+            width: 400px;
+            margin: 0 auto 20px auto;
+            background-color: #f4f4f4;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            background: transparent;
+            font-size: 16px;
+            color: #333;
+            outline: none;
+        }
+        
+        .search-button {
+            background-color: #1db954;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }     
+        
+        h1 {
+            color: #1db954;
+        }
+        
+        p {
+            color: #aaa;
+            margin-bottom: 5px;
+        }
+
+        
+        .navbar {
+            overflow-x: auto;
+            white-space: nowrap;
+            background-color: #333;
+            padding: 10px 0;
+        }
+
+        .nav-link {
+            display: inline-block;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background-color: #555;
+        }
+
+        .active {
+            background-color: #1db954;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Wishify</h1>
+    </header>
+   
+<div class="navbar">
+    <a href="/home" class="nav-link active">Accueil</a>
+    <a href="/pop" class="nav-link">Pop</a>
+    <a href="/rapfr" class="nav-link">Rap FR</a>
+    <a href="/phonk" class="nav-link">Phonk</a>
+    <a href="/release" class="nav-link">Nouvelle sortie</a>
+    <a href="/favorites" class="nav-link">Mes favoris</a>
+</div>
+
+    
+    <form class="search-form" action="/search" method="post">
+        <input type="text" id="search" name="search" class="search-input" placeholder="Rechercher un album...">
+        <button type="submit" class="search-button">
+            <i class="fas fa-search"></i> 
+        </button>
+    </form>
+    <div class="container">
+        <h1>Playlist Française: {{.Name}}</h1>
+        <div class="playlist-info">
+            <p><strong>Description:</strong> {{.Description}}</p>
+            <p><strong>Collaborative:</strong> {{if .Collaborative}}Yes{{else}}No{{end}}</p>
+            <p><strong>Followers:</strong> {{.Followers.Total}}</p>
+            <p><strong>Spotify Link:</strong> <a href="{{.ExternalUrls.Spotify}}">Playlist Link</a></p>
+            <div>
+                <h2>Images</h2>
+                {{range .Images}}
+                    <img src="{{.URL}}" alt="Playlist Image" class="playlist-image">
+                    {{break}}
+                {{end}}
+            </div>
+        </div>
+
+        <div class="owner-info">
+            <h2>Owner</h2>
+            <p><strong>Display Name:</strong> {{.Owner.DisplayName}}</p>
+            <p><strong>Owner Spotify Link:</strong> <a href="{{.Owner.ExternalUrls.Spotify}}">Owner Link</a></p>
+        </div>
+
+        <div class="tracks">
+            <h2>Tracks</h2>
+            {{range .Tracks.Items}}
+                <div class="track">
+                    <h3>{{.Track.Name}}</h3>
+                    <p>Artist: {{range .Track.Artists}}{{.Name}}{{end}}</p>
+                    <p>Album: {{.Track.Album.Name}}</p>
+                    {{range .Track.Album.Images}}
+                        <img src="{{.URL}}" alt="Album Image" class="album-image">
+                        {{break}}
+                    {{end}}
+                    <p><a href="{{.Track.ExternalUrls.Spotify}}">Listen on Spotify</a></p>
+                </div>
+            {{end}}
+        </div>
+    </div>
+
+    <div class="pagination">
+        <button id="prevPage">Page précédente</button>
+        <span id="pageNumber"></span>
+        <button id="nextPage">Page suivante</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const itemsPerPage = 3; 
+            let currentPage = 1;
+            const tracks = document.querySelectorAll('.track');
+            const totalPages = Math.ceil(tracks.length / itemsPerPage);
+            const pageNumberElement = document.getElementById('pageNumber');
+            const prevButton = document.getElementById('prevPage');
+            const nextButton = document.getElementById('nextPage');
+    
+            function updatePageNumber() {
+                pageNumberElement.textContent = `Page ${currentPage} sur ${totalPages}`;
+            }
+    
+            function showPage(page) {
+                const start = (page - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                tracks.forEach((track, index) => {
+                    if (index >= start && index < end) {
+                        track.style.display = 'block';
+                    } else {
+                        track.style.display = 'none';
+                    }
+                });
+                updatePageNumber();
+            }
+    
+            prevButton.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage -= 1;
+                    showPage(currentPage);
+                }
+            });
+    
+            nextButton.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage += 1;
+                    showPage(currentPage);
+                }
+            });
+    
+            showPage(currentPage);
+        });
+    </script>
+    
+</body>
+</html>
+{{end}}

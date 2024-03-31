@@ -1,9 +1,9 @@
-{{ define "home" }}
+{{ define "favorites" }}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Accueil - Musiques Spotify</title>
+    <title>Favoris - Musiques Spotify</title>
     <link href="/static/jul.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome pour l'icône de recherche -->
     <style>
@@ -99,7 +99,7 @@
     <header>
         <h1>Wishify</h1>
     </header>
-  
+   
     <div class="navbar">
         <a href="/home" class="nav-link active">Accueil</a>
         <a href="/pop" class="nav-link">Pop</a>
@@ -109,7 +109,7 @@
     <a href="/favorites" class="nav-link">Mes favoris</a>
     </div>
 
-    
+ 
     <form class="search-form" action="/search" method="post">
         <input type="text" id="search" name="search" class="search-input" placeholder="Rechercher un album...">
         <button type="submit" class="search-button">
@@ -190,9 +190,6 @@
         showPage(currentPage);
     });
 </script>
-
 </body>
-
-
 </html>
 {{ end }}

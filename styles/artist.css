@@ -1,0 +1,51 @@
+/* Style de base */
+body {
+    font-family: Arial, sans-serif;
+}
+
+.artist-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.artist {
+    width: 200px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.artist a {
+    text-decoration: none;
+    color: #333;
+}
+
+.artist h2 {
+    margin-top: 0;
+}
+
+.artist p {
+    margin-bottom: 10px;
+}
+
+.images {
+    text-align: center;
+}
+
+.medium-image {
+    max-width: 100%;
+    height: auto;
+}
+
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #333;
+}
